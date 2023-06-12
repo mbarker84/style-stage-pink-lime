@@ -78,6 +78,39 @@ body {
   margin: 0;
 }
 
+::selection {
+  background-color: var(--primary);
+}
+
+@media (min-width: 60em) {
+  body::after {
+    position: fixed;
+    top: var(--space-s);
+    right: var(--space-s);
+    content: "";
+    width: 4rem;
+    aspect-ratio: 1;
+    rotate: 0deg;
+    border-radius: 50%;
+    background-color: var(--secondary);
+    background: radial-gradient(
+        circle at center,
+        var(--secondary) 14%,
+        transparent 0
+      ),
+      radial-gradient(circle at center, transparent 60%, var(--secondary) 0),
+      repeating-conic-gradient(
+        from 0deg at center,
+        var(--primary),
+        var(--primary) 45deg,
+        transparent 0,
+        transparent 60deg
+      ),
+      var(--secondary);
+    border: 0.4rem solid var(--primary);
+  }
+}
+
 h1,
 h2,
 h3,
@@ -107,6 +140,31 @@ h1 {
 
 h2 {
   font-size: var(--step-3);
+  position: relative;
+}
+
+@media (min-width: 60em) {
+  main h2::before {
+    --primary: white;
+    --size: 1.5em;
+    --stops: transparent 40%, var(--primary) 0, var(--primary) 60%,
+      transparent 0;
+    content: "";
+    position: absolute;
+    z-index: -1;
+    width: var(--size);
+    height: var(--size);
+    background: linear-gradient(45deg, var(--stops)),
+      linear-gradient(90deg, transparent 80%, var(--primary) 0),
+      linear-gradient(180deg, transparent 80%, var(--primary) 0);
+    background: linear-gradient(45deg, var(--stops)),
+      linear-gradient(180deg, transparent 75%, var(--primary) 0),
+      linear-gradient(90deg, transparent 75%, var(--primary) 0);
+    background-position: 0 0, 0.3em 0, 0 0.3em;
+    background-repeat: no-repeat;
+    top: -0.8em;
+    left: -0.8em;
+  }
 }
 
 h3,
@@ -125,6 +183,10 @@ footer h3 {
 
 h4 {
   font-size: var(--step-1);
+}
+
+strong {
+  font-weight: var(--fw-heading);
 }
 
 svg {
@@ -218,11 +280,16 @@ footer {
 
 .page-footer {
   margin-block-start: 0;
+  font-size: var(--step--1);
 }
 
 .page-footer ul {
   list-style: none;
   margin: var(--space-s) 0;
+  padding: 0;
+}
+
+.page-footer li {
   padding: 0;
 }
 
@@ -406,8 +473,15 @@ header::before {
 }
 
 @media (min-width: 120em) {
-  header::before {
-    --mask: none;
+  header {
+    /* --mask: none; */
+    --mask: radial-gradient(
+        circle at 25vw calc(100% - 50vw),
+        black 50vw,
+        transparent 0
+      ),
+      radial-gradient(circle at 75vw 5vh, black 26vw, transparent 0),
+      radial-gradient(circle at 55vw 30%, black 22vw, transparent 0);
   }
 }
 
@@ -456,7 +530,7 @@ header .link-github span {
 }
 
 h1 {
-  line-height: 1;
+  line-height: 1.18;
 }
 
 h1,
@@ -512,9 +586,13 @@ header p {
     --bgPos: 100;
     background-color: var(--bg);
   }
-  50% {
-    --bgPos: 50;
+  40% {
+    --bgPos: 60;
     background-color: var(--secondary);
+  }
+  60% {
+    --bgPos: 40;
+    background-color: turquoise;
   }
   100% {
     --bgPos: 0;
@@ -527,10 +605,19 @@ header p {
     --bgValue: 0;
   }
   50% {
-    --bgValue: 100;
+    --bgValue: 70;
   }
   100% {
     --bgValue: 0;
+  }
+}
+
+@keyframes spin {
+  0% {
+    rotate: 0deg;
+  }
+  100% {
+    rotate: 360deg;
   }
 }
 
@@ -548,6 +635,10 @@ header p {
         var(--bg);
       background-attachment: fixed;
     }
+  }
+
+  body::after {
+    animation: spin 20000ms infinite linear;
   }
 }
 
@@ -735,8 +826,10 @@ header p {
     var(--primary);
   background-size: 55% 55%;
   background-repeat: no-repeat;
-  background-position: center;
+  background-position: center, center;
   align-items: center;
+  transition: background-position 200ms, border-color 200ms;
+  border: 3px solid var(--border-color, var(--primary));
 }
 
 .features a {
@@ -752,7 +845,8 @@ header p {
 }
 
 .features li:has(:hover, :focus)::before {
-  border: 3px solid var(--secondary);
+  --border-color: var(--secondary);
+  background-position: 50% 110%, 50% -10%;
 }
 
 @layer reset {
