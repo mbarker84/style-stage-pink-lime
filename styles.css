@@ -635,10 +635,10 @@ header p {
         var(--bg);
       background-attachment: fixed;
     }
-  }
 
-  body::after {
-    animation: spin 20000ms infinite linear;
+    body::after {
+      animation: spin 20000ms linear infinite;
+    }
   }
 }
 
@@ -647,6 +647,7 @@ header p {
   body {
     display: grid;
     grid-template-columns: 1fr 200px minmax(0, 1200px) 1fr;
+    gap: 0 var(--space-xl);
   }
 
   nav {
