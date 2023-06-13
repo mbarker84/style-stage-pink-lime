@@ -76,6 +76,7 @@ body {
   font-family: var(--body);
   font-weight: var(--fw-body);
   margin: 0;
+  position: relative;
 }
 
 ::selection {
@@ -83,14 +84,13 @@ body {
 }
 
 @media (min-width: 60em) {
-  body::after {
+  header::after {
     position: fixed;
     top: var(--space-s);
     right: var(--space-s);
     content: "";
     width: 4rem;
     aspect-ratio: 1;
-    rotate: 0deg;
     border-radius: 50%;
     background-color: var(--secondary);
     background: radial-gradient(
@@ -626,18 +626,22 @@ header p {
   }
 }
 
-@keyframes spin {
-  0% {
-    rotate: 0deg;
-  }
-  100% {
-    rotate: 360deg;
+body::before {
+  position: absolute;
+  inset: 0;
+  content: "";
+  z-index: -1;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  header::after {
+    animation: spin 15000ms infinite linear;
   }
 }
 
 @supports (animation-timeline: scroll(root block)) {
   @media (prefers-reduced-motion: no-preference) {
-    body {
+    body::before {
       --circle-color: var(--secondary);
       animation: bodyAnimation auto linear, bodyAnimation2 auto linear;
       animation-timeline: scroll(root block);
@@ -650,9 +654,22 @@ header p {
       background-attachment: fixed;
     }
 
-    body::after {
-      animation: spin 20000ms linear infinite;
+    header::after {
+      animation: spin auto linear;
+      animation-timeline: scroll(root block);
     }
+  }
+}
+
+@keyframes move {
+  100% {
+    translate: -90vw;
+  }
+}
+
+@keyframes spin {
+  100% {
+    rotate: 300deg;
   }
 }
 
