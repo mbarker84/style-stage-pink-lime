@@ -491,17 +491,30 @@ header .container {
 }
 
 .skip-link {
-  border: 0 !important;
-  clip: rect(1px, 1px, 1px, 1px) !important;
-  -webkit-clip-path: inset(50%) !important;
-  clip-path: inset(50%) !important;
-  height: 1px !important;
-  overflow: hidden !important;
-  margin: -1px !important;
-  padding: 0 !important;
-  position: absolute !important;
-  width: 1px !important;
-  white-space: nowrap !important;
+  border: 0;
+  clip: rect(1px, 1px, 1px, 1px);
+  -webkit-clip-path: inset(50%);
+  clip-path: inset(50%);
+  height: 1px;
+  overflow: hidden;
+  margin: -1px;
+  padding: 0;
+  position: absolute;
+  width: 1px;
+  white-space: nowrap;
+}
+
+.skip-link:focus-visible {
+  width: auto;
+  height: auto;
+  top: 0;
+  left: 0;
+  margin: 0;
+  clip-path: unset;
+  clip: unset;
+  background-color: var(--secondary);
+  z-index: 1;
+  padding: 0 0.5em;
 }
 
 header .link-github {
@@ -566,6 +579,7 @@ header p {
   padding: var(--space-xs) var(--space-s);
   backdrop-filter: blur(10px);
   width: fit-content;
+  background-color: rgb(255 255 255 / 0.2);
 }
 
 /* Scroll animation */
